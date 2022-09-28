@@ -6,33 +6,6 @@ from settings import token
 import sqlite3
 
 
-MainKey = VkKeyboard(one_time=False, inline=True)
-MainKey.add_button("Расписание событий факультета", color=VkKeyboardColor.POSITIVE)
-MainKey.add_button("Должностные лица факультета", color=VkKeyboardColor.PRIMARY)
-
-
-def get_team():
-    try:
-        conn = sqlite3.connect(r"C:/Users/Maxim/DataGripProjects/DBAVTF/DBAVTF.sqlite")
-    except (sqlite3.Error, sqlite3.Warning) as err:
-        print("He удалось подключиться к БД: " + err)
-    cursor = conn.cursor()
-    cursor.execute("SELECT Link FROM Team;")
-    results = cursor.fetchall()
-    return results
-
-
-TeamKey = VkKeyboard(one_time=False, inline=True)
-Links = get_team()
-TeamKey.add_openlink_button("Староста факультета", link=str(Links[0]).split("'")[1])
-TeamKey.add_openlink_button("Заместитель №1", link=str(Links[1]).split("'")[1])
-TeamKey.add_line()
-TeamKey.add_openlink_button("Заместитель №2", link=str(Links[2]).split("'")[1])
-TeamKey.add_openlink_button("Художественный руководитель", link=str(Links[3]).split("'")[1])
-TeamKey.add_line()
-TeamKey.add_openlink_button("Руководитель медиа отдела", link=str(Links[4]).split("'")[1])
-
-
 def get_timetable():
     try:
         conn = sqlite3.connect(r"C:/Users/Maxim/DataGripProjects/DBAVTF/DBAVTF.sqlite")
@@ -51,6 +24,34 @@ def get_timetable():
         msg += str(res).split("'")[1] + " С " + str(results_in).split("'")[1] + " до " + str(results_out).split("'")[1] + "\n"
     conn.close()
     return msg
+
+
+def get_team():
+    try:
+        conn = sqlite3.connect(r"C:/Users/Maxim/DataGripProjects/DBAVTF/DBAVTF.sqlite")
+    except (sqlite3.Error, sqlite3.Warning) as err:
+        print("He удалось подключиться к БД: " + err)
+    cursor = conn.cursor()
+    cursor.execute("SELECT Link FROM Team;")
+    results = cursor.fetchall()
+    return results
+
+
+MainKey = VkKeyboard(one_time=False, inline=True)
+MainKey.add_button("Расписание событий факультета", color=VkKeyboardColor.POSITIVE)
+MainKey.add_button("Должностные лица факультета", color=VkKeyboardColor.PRIMARY)
+
+
+
+TeamKey = VkKeyboard(one_time=False, inline=True)
+Links = get_team()
+TeamKey.add_openlink_button("Староста факультета", link=str(Links[0]).split("'")[1])
+TeamKey.add_openlink_button("Заместитель №1", link=str(Links[1]).split("'")[1])
+TeamKey.add_line()
+TeamKey.add_openlink_button("Заместитель №2", link=str(Links[2]).split("'")[1])
+TeamKey.add_openlink_button("Художественный руководитель", link=str(Links[3]).split("'")[1])
+TeamKey.add_line()
+TeamKey.add_openlink_button("Руководитель медиа отдела", link=str(Links[4]).split("'")[1])
 
 
 def main():
