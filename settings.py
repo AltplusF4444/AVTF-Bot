@@ -1,1 +1,0 @@
-token = 'vk1.a.oPGc3gkkuKtOqsC8D35z8Q3A9SobMVscdK6SOnqkQBglh8jFRy-IsneUZhVKgi4RJ6iF-skORUXzDgqy9AGZr3H6pKiFiO4J96SH4dFnrdL2RfHOEkjRxyGdSllqnNXIMwHfRWk3JntBj1uUTjhfjZ3A8kqjBnKOUyXw1FbmSSCqkzh4CWpa_HUl3xG3GTfL'
