@@ -167,6 +167,8 @@ def main():
                     vk.messages.send(
                         user_id=event.user_id,
                         message=dogs,
+                        lat='54.98707',
+                        long='82.91492',
                         keyboard=DogsKey.get_keyboard(),
                         random_id=get_random_id()
                     )
