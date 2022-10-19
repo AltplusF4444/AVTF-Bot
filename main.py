@@ -40,7 +40,9 @@ def get_team():
 MainKey = VkKeyboard(one_time=False, inline=True)
 MainKey.add_button("Расписание событий факультета", color=VkKeyboardColor.POSITIVE)
 MainKey.add_button("Должностные лица факультета", color=VkKeyboardColor.PRIMARY)
-
+MainKey.add_button("Сообщение администратору", color=VkKeyboardColor.SECONDARY)
+MainKey.add_line()
+MainKey.add_button("Проект <<Мягкие лапки>>", color=VkKeyboardColor.NEGATIVE)
 
 
 TeamKey = VkKeyboard(one_time=False, inline=True)
@@ -52,6 +54,9 @@ TeamKey.add_openlink_button("Заместитель №2", link=str(Links[2]).sp
 TeamKey.add_openlink_button("Художественный руководитель", link=str(Links[3]).split("'")[1])
 TeamKey.add_line()
 TeamKey.add_openlink_button("Руководитель медиа отдела", link=str(Links[4]).split("'")[1])
+
+dogs = 'Проект << Мягкие лапки >> направлен на материальную помощь приюту "Верность"\nПо ссылке ниже вы можете ' \
+        'увидеть местоположение контейнера для корма и ссылку на денежную помощь в фонд помощи бездомным животным'
 
 
 def main():
@@ -65,11 +70,11 @@ def main():
 
     LongPoll = VkLongPoll(vk_session)
     vk = vk_session.get_api()
-
+    users = []
     for event in LongPoll.listen():
         if event.type == VkEventType.MESSAGE_NEW and event.to_me and event.text:
             if event.from_user:
-                if event.text == 'Привет':
+                if event.text == 'Привет' or event.text == 'Начать':
 
                     vk.messages.send(
                         user_id=event.user_id,
@@ -83,28 +88,69 @@ def main():
                         keyboard=MainKey.get_keyboard(),
                         random_id=get_random_id()
                     )
+
+                    try:
+                        users.pop(users.index(event.user_id))
+                    except BaseException as BE:
+                        print(BE)
                 elif event.text == 'Расписание событий факультета':
-                    if event.from_user:
-                        vk.messages.send(
-                            user_id=event.user_id,
-                            message='Вот что у нас запланировано:\n' + get_timetable(),
-                            keyboard=MainKey.get_keyboard(),
-                            random_id=get_random_id()
-                        )
+
+                    vk.messages.send(
+                        user_id=event.user_id,
+                        message='Вот что у нас запланировано:\n' + get_timetable(),
+                        keyboard=MainKey.get_keyboard(),
+                        random_id=get_random_id()
+                    )
+                    try:
+                        users.pop(users.index(event.user_id))
+                    except BaseException as BE:
+                        print(BE)
                 elif event.text == 'Должностные лица факультета':
-                    if event.from_user:
-                        vk.messages.send(
-                            user_id=event.user_id,
-                            message='Должностные лица:\n',
-                            keyboard=TeamKey.get_keyboard(),
-                            random_id=get_random_id()
-                        )
-                        vk.messages.send(
-                            user_id=event.user_id,
-                            message='Вот что я умею:',
-                            keyboard=MainKey.get_keyboard(),
-                            random_id=get_random_id()
-                        )
+
+                    vk.messages.send(
+                        user_id=event.user_id,
+                        message='Должностные лица:\n',
+                        keyboard=TeamKey.get_keyboard(),
+                        random_id=get_random_id()
+                    )
+                    vk.messages.send(
+                        user_id=event.user_id,
+                        message='Вот что я умею:',
+                        keyboard=MainKey.get_keyboard(),
+                        random_id=get_random_id()
+                    )
+                    try:
+                        users.pop(users.index(event.user_id))
+                    except BaseException as BE:
+                        print(BE)
+                elif event.text == 'Сообщение администратору':
+                    vk.messages.send(
+                        user_id=event.user_id,
+                        message='Введите ваше сообщение',
+                        random_id=get_random_id()
+                    )
+                    try:
+                        users.index(event.user_id)
+                    except BaseException as BE:
+                        print(BE)
+                        users.append(event.user_id)
+                elif event.text == 'Проект << Мягкие лапки >>':
+                    vk.messages.send(
+                        user_id=event.user_id,
+                        message=dogs,
+                        random_id=get_random_id()
+                    )
+
+                elif event.user_id in users:
+                    vk.messages.send(
+                        user_id=event.user_id,
+                        message='Ваше сообщение отправлено! Ждем ответа...',
+                        keyboard=MainKey.get_keyboard(),
+                        random_id=get_random_id()
+                    )
+                    users.pop(users.index(event.user_id))
+
+                    print(event.user_id)
             elif event.from_chat:
                 if event.text == 'Привет':
 
