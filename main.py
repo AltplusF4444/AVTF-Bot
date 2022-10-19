@@ -86,6 +86,7 @@ dogs = 'Проект << Мягкие лапки >> направлен на ма�
 
 
 DogsKey = VkKeyboard(inline=True)
+DogsKey.add_vkpay_button(hash='action=transfer-to-group&group_id=204477345')
 DogsKey.add_button('Назад')
 
 
