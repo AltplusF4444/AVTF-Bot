@@ -19,13 +19,13 @@ class VK:
 
         self.TeamKey = VkKeyboard(one_time=False, inline=True)
         Links = self.get_team()
-        self.TeamKey.add_openlink_button("Староста факультета", link=str(Links[0]).split("'")[1])
-        self.TeamKey.add_openlink_button("Заместитель №1", link=str(Links[1]).split("'")[1])
+        self.TeamKey.add_openlink_button("Староста факультета", link=str(Links[0][0]))
+        self.TeamKey.add_openlink_button("Заместитель №1", link=str(Links[1][0]))
         self.TeamKey.add_line()
-        self.TeamKey.add_openlink_button("Заместитель №2", link=str(Links[2]).split("'")[1])
-        self.TeamKey.add_openlink_button("Художественный руководитель", link=str(Links[3]).split("'")[1])
+        self.TeamKey.add_openlink_button("Заместитель №2", link=str(Links[2][0]))
+        self.TeamKey.add_openlink_button("Художественный руководитель", link=str(Links[3][0]))
         self.TeamKey.add_line()
-        self.TeamKey.add_openlink_button("Руководитель медиа отдела", link=str(Links[4]).split("'")[1])
+        self.TeamKey.add_openlink_button("Руководитель медиа отдела", link=str(Links[4][0]))
 
         self.dogs = 'Проект << Мягкие лапки >> направлен на материальную помощь приюту "Верность"\nПо ссылке ниже вы ' \
                     'можете увидеть местоположение контейнера для корма и ссылку на денежную помощь в фонд помощи ' \
@@ -52,7 +52,7 @@ class VK:
             results_in = cursor.fetchone()
             cursor.execute("SELECT date_out FROM Events WHERE Name = (?);", res)
             results_out = cursor.fetchone()
-            msg += str(res).split("'")[1] + " С " + str(results_in).split("'")[1] + " до " + \
+            msg += str(res[0]) + " С " + str(results_in[0]) + " до " + \
                    str(results_out).split("'")[
                        1] + "\n"
         conn.close()
