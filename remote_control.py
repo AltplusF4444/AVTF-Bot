@@ -44,7 +44,6 @@ class M(tkinter.Tk):
     def start(self):
         self.mainloop()
 
-
     def stop(self):
 
         self.destroy()
