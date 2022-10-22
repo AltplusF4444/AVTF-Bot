@@ -9,6 +9,7 @@ import datetime
 
 class VK:
     def __init__(self):
+        self.vk_session = None
         self.thread_stop = True
         self.MainKey = VkKeyboard(one_time=False, inline=True)
         self.MainKey.add_button("Расписание событий факультета", color=VkKeyboardColor.POSITIVE)
@@ -59,14 +60,14 @@ class VK:
         return msg
 
     @staticmethod
-    def set_qe(text, id_user):
+    def set_qe(text, id_user, msg_id):
         try:
             conn = sqlite3.connect(r"C:/Users/Maxim/DataGripProjects/DBAVTF/DBAVTF.sqlite")
         except (sqlite3.Error, sqlite3.Warning) as err:
             print("He удалось подключиться к БД: " + err)
         cursor = conn.cursor()
-        cursor.execute("""INSERT INTO Questions(text, id_user) 
-           VALUES(?,?);""", (text, id_user))
+        cursor.execute("""INSERT INTO Questions(text, id_user, msg_id) 
+           VALUES(?,?,?);""", (text, id_user, msg_id))
         conn.commit()
         conn.close()
 
@@ -96,14 +97,14 @@ class VK:
 
     def start(self):
         try:
-            vk_session = vk_api.VkApi(token=token)
+            self.vk_session = vk_api.VkApi(token=token)
 
         except vk_api.AuthError as error_msg:
             print("Not auth", error_msg)
             return 1
 
-        LongPoll = VkLongPoll(vk_session)
-        vk = vk_session.get_api()
+        LongPoll = VkLongPoll(self.vk_session)
+        vk = self.vk_session.get_api()
         users = []
 
         for event in LongPoll.listen():
@@ -189,7 +190,7 @@ class VK:
                             )
                             users.pop(users.index(event.user_id))
 
-                            self.set_qe(event.text, event.user_id)
+                            self.set_qe(event.text, event.user_id, event.message_id)
                     elif event.from_chat:
                         if event.text == 'Привет':
                             vk.messages.send(
@@ -201,6 +202,28 @@ class VK:
             else:
                 break
         return 0
+
+    def send(self, msg, user_id, msg_id):
+        try:
+            self.vk_session = vk_api.VkApi(token=token)
+
+        except vk_api.AuthError as error_msg:
+            print("Not auth", error_msg)
+            return 1
+        else:
+            vk = self.vk_session.get_api()
+            vk.messages.send(
+                user_id=user_id,
+                message=msg,
+                reply_to=msg_id,
+                random_id=get_random_id()
+            )
+            vk.messages.send(
+                user_id=user_id,
+                message='Надеемся модератор смог ответить на ваш вопрос',
+                keyboard=self.MainKey.get_keyboard(),
+                random_id=get_random_id()
+            )
 
 
 if __name__ == '__main__':
