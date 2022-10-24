@@ -13,6 +13,11 @@ class M(tkinter.Tk):
     def __init__(self):
         super().__init__()
 
+        self.entry = None
+        self.combo_box = None
+        self.lbl_out = None
+        self.a_w = None
+
         self.Vk = VK()
 
         self.title('Remote Control AVTF Bot')
@@ -80,9 +85,9 @@ class M(tkinter.Tk):
 
         else:
             self.lbl_out.configure(text=str(result_text[0]))
-            self.entr = ttk.Entry(self.a_w)
+            self.entry = ttk.Entry(self.a_w)
             btn_send_a = ttk.Button(self.a_w, text='Отправить', command=self.send_a)
-            self.entr.pack()
+            self.entry.pack()
             btn_send_a.pack()
             conn.close()
 
@@ -103,7 +108,7 @@ class M(tkinter.Tk):
              (SELECT text FROM Questions WHERE id_user = ? and check_a = 0);"""
             cursor.execute(sql_upd, (self.combo_box.get(), self.combo_box.get()))
             conn.commit()
-            self.Vk.send(self.entr.get(), self.combo_box.get(), result)
+            self.Vk.send(self.entry.get(), self.combo_box.get(), result)
             conn.close()
             self.a_w.destroy()
 
