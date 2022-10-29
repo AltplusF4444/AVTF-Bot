@@ -40,7 +40,7 @@ class VK:
     @staticmethod
     def get_timetable():
         try:
-            conn = sqlite3.connect(r"C:/Users/Maxim/DataGripProjects/DBAVTF/DBAVTF.sqlite")
+            conn = sqlite3.connect(r"DBAVTF.sqlite")
         except (sqlite3.Error, sqlite3.Warning) as err:
             print("He удалось подключиться к БД: " + err)
         cursor = conn.cursor()
@@ -62,7 +62,7 @@ class VK:
     @staticmethod
     def set_qe(text, id_user, msg_id):
         try:
-            conn = sqlite3.connect(r"C:/Users/Maxim/DataGripProjects/DBAVTF/DBAVTF.sqlite")
+            conn = sqlite3.connect(r"DBAVTF.sqlite")
         except (sqlite3.Error, sqlite3.Warning) as err:
             print("He удалось подключиться к БД: " + err)
         cursor = conn.cursor()
@@ -74,7 +74,7 @@ class VK:
     @staticmethod
     def set_log(log):
         try:
-            conn = sqlite3.connect(r"C:/Users/Maxim/DataGripProjects/DBAVTF/DBAVTF.sqlite")
+            conn = sqlite3.connect(r"DBAVTF.sqlite")
         except (sqlite3.Error, sqlite3.Warning) as err:
             print("He удалось подключиться к БД: " + err)
         cursor = conn.cursor()
@@ -86,7 +86,7 @@ class VK:
     @staticmethod
     def get_team():
         try:
-            conn = sqlite3.connect(r"C:/Users/Maxim/DataGripProjects/DBAVTF/DBAVTF.sqlite")
+            conn = sqlite3.connect(r"DBAVTF.sqlite")
         except (sqlite3.Error, sqlite3.Warning) as err:
             print("He удалось подключиться к БД: " + err)
         cursor = conn.cursor()

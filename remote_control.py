@@ -45,7 +45,7 @@ class M(tkinter.Tk):
 
     def get_id_users(self):
         try:
-            conn = sqlite3.connect(r"C:/Users/Maxim/DataGripProjects/DBAVTF/DBAVTF.sqlite")
+            conn = sqlite3.connect(r"DBAVTF.sqlite")
             cursor = conn.cursor()
             cursor.execute("SELECT id_user FROM Questions where check_a = 0;")
             results = cursor.fetchall()
@@ -73,7 +73,7 @@ class M(tkinter.Tk):
 
     def choose_id(self):
         try:
-            conn = sqlite3.connect(r"C:/Users/Maxim/DataGripProjects/DBAVTF/DBAVTF.sqlite")
+            conn = sqlite3.connect(r"DBAVTF.sqlite")
             cursor = conn.cursor()
             choose_id = (self.combo_box.get(),)
             cursor.execute("SELECT text FROM Questions WHERE id_user = ? and check_a = 0;", choose_id)
@@ -93,7 +93,7 @@ class M(tkinter.Tk):
 
     def send_a(self):
         try:
-            conn = sqlite3.connect(r"C:/Users/Maxim/DataGripProjects/DBAVTF/DBAVTF.sqlite")
+            conn = sqlite3.connect(r"DBAVTF.sqlite")
             cursor = conn.cursor()
             choose_id = (self.combo_box.get(),)
             cursor.execute("SELECT msg_id FROM Questions WHERE id_user = ? and check_a = 0;", choose_id)
@@ -114,7 +114,7 @@ class M(tkinter.Tk):
 
     def questions(self):
         try:
-            conn = sqlite3.connect(r"C:/Users/Maxim/DataGripProjects/DBAVTF/DBAVTF.sqlite")
+            conn = sqlite3.connect(r"DBAVTF.sqlite")
             cursor = conn.cursor()
             cursor.execute("SELECT text FROM Questions WHERE check_a = 0;")
             results_text = cursor.fetchall()
@@ -163,7 +163,7 @@ class M(tkinter.Tk):
         self.lbl_main.configure(text='Бот выключен')
         self.btn_start_bot.configure(state=ACTIVE)
         self.btn_stop_bot.configure(state=DISABLED)
-        self.btn_qe_window.destroy()
+        self.btn_qe_window.pack_forget()
 
     def start(self):
         self.mainloop()
